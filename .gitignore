@@ -1,0 +1,24 @@
+# Files and directories to ignore
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+._*
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Compressed files for store submission
+*.zip
+*.crx

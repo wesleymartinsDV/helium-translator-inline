@@ -1,0 +1,83 @@
+# Planejamento para Desenvolvimento de Extensão de Tradução "Helium Translator Inline"
+
+Este documento descreve os passos para criar uma extensão de tradução de páginas web e trechos de texto, com foco em usabilidade e tradução in-page.
+
+## Fase 1: Estrutura e Configuração do Projeto
+
+1.  **Criação do Diretório do Projeto:**
+    *   Estrutura de pastas: `icons/` (para ícones 16, 48, 128px), `ui/` (para o popup e o balão de tradução), `src/` (para os scripts).
+
+2.  **Criação do `manifest.json`:**
+    *   **Nome:** Helium Translator Inline (provisório)
+    *   **Permissões:**
+        *   `contextMenus`: Para criar as opções no menu de clique com o botão direito.
+        *   `activeTab`: Para interagir com a página atual.
+        *   `storage`: Para salvar as configurações do usuário (idioma de destino padrão).
+        *   `scripting`: Para injetar os scripts e CSS na página.
+    *   **Background Script:** Registrar `src/background.js`.
+    *   **Content Script:** Registrar `src/content.js`.
+    *   **Action (Popup):** Definir `ui/popup.html` como o popup padrão.
+    *   **Ícones:** Especificar os caminhos para os ícones.
+    *   **Web Accessible Resources:** Declarar os arquivos do balão de tradução para que possam ser injetados na página.
+
+## Fase 2: Menu de Contexto e Background Script
+
+1.  **Implementação do Background Script (`src/background.js`):**
+    *   **Criação dos Menus:**
+        *   Na instalação da extensão (`chrome.runtime.onInstalled`), criar dois menus de contexto.
+        *   Menu 1: "Traduzir página inteira", visível sempre.
+        *   Menu 2: "Traduzir texto selecionado", visível apenas quando há texto selecionado (`"contexts": ["selection"]`).
+    *   **Listeners de Clique:**
+        *   Adicionar `chrome.contextMenus.onClicked` para ouvir os eventos de clique nos menus.
+        *   Se "Traduzir página inteira" for clicado, enviar uma mensagem para o content script da aba ativa.
+        *   Se "Traduzir texto selecionado" for clicado, pegar o texto (`info.selectionText`), traduzi-lo e enviar o resultado para o content script.
+    *   **Lógica de Tradução:**
+        *   Implementar uma função `translateText(text, targetLang)`.
+        *   Utilizar uma API de tradução gratuita/pública (ex: Google Translate via requisição HTTP, para não precisar de chave de API no início).
+        *   A função irá detectar o idioma de origem e traduzir para o `targetLang`.
+    *   **Gerenciamento de Estado:**
+        *   Ouvir mensagens do popup para atualizar o idioma de destino padrão, salvando-o com `chrome.storage.sync`.
+
+## Fase 3: Interação com a Página (Content Script)
+
+1.  **Implementação do Content Script (`src/content.js`):**
+    *   **Listener de Mensagens:**
+        *   Ouvir mensagens do `background.js`.
+        *   Se receber uma ordem para "traduzir página inteira":
+            *   Percorrer o DOM da página, identificando nós de texto.
+            *   Enviar lotes de texto para o `background.js` para tradução.
+            *   Receber as traduções e substituir o conteúdo dos nós de texto.
+            *   Observar o DOM (`MutationObserver`) para traduzir conteúdo dinâmico.
+        *   Se receber uma ordem para "mostrar balão de tradução":
+            *   Receber o texto traduzido e o texto original.
+            *   Injetar um `<iframe>` ou `<div>` na página para ser o balão de tradução.
+            *   Popular o balão com o texto traduzido, botões de "Copiar" e "Ouvir".
+            *   Posicionar o balão perto do texto selecionado.
+            *   Adicionar lógica para fechar o balão (clique fora, tecla Esc).
+
+## Fase 4: Interface do Usuário (UI)
+
+1.  **Desenvolvimento do Balão de Tradução (`ui/balloon.html`, `ui/balloon.css`, `ui/balloon.js`):**
+    *   **HTML:** Estrutura do balão com áreas para o texto traduzido, idioma de destino e botões.
+    *   **CSS:** Estilo moderno e não intrusivo.
+    *   **JS:** Lógica para os botões (copiar, ouvir - usando `speechSynthesis`).
+
+2.  **Desenvolvimento do Popup (`ui/popup.html`, `ui/popup.css`, `ui/popup.js`):**
+    *   **HTML:** Seletor de idioma de destino, botão para reverter a tradução da página.
+    *   **JS:**
+        *   Carregar o idioma de destino salvo no `chrome.storage`.
+        *   Salvar a escolha do usuário no `chrome.storage` quando for alterada.
+        *   Implementar a lógica do botão "Reverter Tradução", que enviará uma mensagem para o content script.
+
+## Fase 5: Testes e Finalização
+
+1.  **Testes Manuais:**
+    *   Carregar a extensão no modo de desenvolvedor.
+    *   Testar em diferentes sites (estáticos e dinâmicos).
+    *   Verificar a criação correta dos menus de contexto.
+    *   Testar a tradução de trechos e da página inteira.
+    *   Verificar a UI e funcionalidade do balão e do popup.
+    *   Testar a persistência das configurações.
+
+2.  **Empacotamento:**
+    *   Criar o arquivo `.zip` para distribuição.
