@@ -1,6 +1,21 @@
 # Helium Translator Inline
 
-Helium Translator Inline is a Chromium-based browser extension that translates entire pages or selected text without disruptive popups. The project started when moving from Microsoft Edge to Helium Browser revealed the lack of a translation flow comparable to Edge’s native feature, so the extension was built to fill that gap—and it works seamlessly in any Chromium browser, including Chrome and Edge. Fast shortcuts keep the workflow fluid while the interface stays clean.
+![License](https://img.shields.io/github/license/wesleymartinsDV/helium-translator-inline?style=flat-square)
+![Version](https://img.shields.io/github/package-json/v/wesleymartinsDV/helium-translator-inline?style=flat-square)
+
+The project started when moving from Microsoft Edge to Helium Browser revealed the lack of a translation flow comparable to Edge’s native feature, so the extension was built to fill that gap—and it works seamlessly in any Chromium browser, including Chrome and Edge. Fast shortcuts keep the workflow fluid while the interface stays clean.
+
+- Helium Browser and most other Chromium-based browsers
+- [Google Chrome](https://chromewebstore.google.com/detail/helium-translator-inline/odibgflepadohfmpcemnjbhkionjkapk) 3+ ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/odibgflepadohfmpcemnjbhkionjkapk?color=white&label=users&style=flat-square)
+- [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/nbnmfihmepgnmpfaohjmdljphdkkmhoh) 1+ ![users count](https://img.shields.io/badge/dynamic/json?label=users&query=activeInstallCount&style=flat-square&color=white&url=https://microsoftedge.microsoft.com/addons/getproductdetailsbycrxid/nbnmfihmepgnmpfaohjmdljphdkkmhoh)
+- [Opera] soon...
+
+![A screenshot from the extension pop-up page](docs/screenshots/screenshotInterface.png)
+
+<p align="center">
+  Made by <a href="https://github.com/wesleymartinsdv">Wesley Martins</a>
+</p>
+
 
 ## Features
 
@@ -10,17 +25,14 @@ Helium Translator Inline is a Chromium-based browser extension that translates e
 - Favorite languages, quick search, and complete UI localization
 - Store metadata localized via `_locales/<lang>/messages.json`
 
-## Installation
+## Disclaimer
 
-### Chrome Web Store (recommended)
+This extension uses the Google Translate service to provide translations but is not affiliated with, endorsed, or sponsored by Google. All copyrights and trademarks belong to their respective owners.
 
-1. Visit the Chrome Web Store listing (URL will be published after approval).
-2. Click **Add to Chrome** and confirm.
+## Known Limitations
 
-### Microsoft Edge Add-ons
-
-1. Visit the Edge Add-ons listing (URL will be published after approval).
-2. Click **Get** and then **Add extension**.
+- Due to browser security restrictions, this extension cannot run on internal pages (e.g., `chrome://`, `edge://`) or on the Chrome Web Store / Edge Add-ons website itself.
+- Translation relies on an external service and requires an active internet connection.
 
 ### Manual installation (development build)
 
@@ -28,27 +40,6 @@ Helium Translator Inline is a Chromium-based browser extension that translates e
 2. Open `chrome://extensions` (or `edge://extensions`) and enable **Developer mode**.
 3. Click **Load unpacked** and choose the project root (`heliumExtension`).
 4. Use the refresh icon whenever you change local files.
-
-## Usage
-
-1. Open the popup to choose the target language and manage favorites.
-2. Press `Shift + Alt + Q` to translate the current selection; press again to revert.
-3. Press `Shift + Alt + W` to translate the entire page; press again to revert.
-4. Toggle the theme button to switch between light and dark modes.
-
-## Packaging for Store Submission
-
-1. Increment the version number in `manifest.json` (semantic versioning).
-2. Zip the project folder (exclude `.git`, `node_modules`, or private files).
-3. Chrome Web Store:
-   - Open the [Developer Dashboard](https://chrome.google.com/webstore/devconsole/).
-   - Create or update the item and upload the ZIP.
-   - Provide assets: 1280x800 hero, 440x280 small tile, 128x128 icon, and screenshots (1280x800 recommended).
-4. Microsoft Edge Add-ons:
-   - Sign in to the [Partner Center](https://partner.microsoft.com/dashboard/microsoftedge/overview).
-   - Create or update the submission and upload the same ZIP and assets.
-5. Copy the long description, short description, and promotional text from `docs/StoreListing.md`.
-6. Host the privacy policy (`docs/PrivacyPolicy.md`) somewhere public (e.g., GitHub Pages) and provide the URL during submission.
 
 ## Development
 
@@ -78,4 +69,5 @@ docs/
 
 ## License
 
-Select a license before publishing (e.g., MIT). Add the text to a `LICENSE` file and update this section accordingly.
+Feel free to contribute! Keep in mind that the license I chose
+is [GPL v3](https://github.com/wesleymartinsDV/helium-translator-inline/blob/main/LICENSE)
