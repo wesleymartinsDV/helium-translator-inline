@@ -1,8 +1,5 @@
 # Helium Translator Inline
 
-![License](https://img.shields.io/github/license/wesleymartinsDV/helium-translator-inline?style=flat-square)
-![Version](https://img.shields.io/github/package-json/v/wesleymartinsDV/helium-translator-inline?style=flat-square)
-
 The project started when moving from Microsoft Edge to Helium Browser revealed the lack of a translation flow comparable to Edge’s native feature, so the extension was built to fill that gap—and it works seamlessly in any Chromium browser, including Chrome and Edge. Fast shortcuts keep the workflow fluid while the interface stays clean.
 
 - Helium Browser and most other Chromium-based browsers
