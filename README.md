@@ -7,7 +7,7 @@ The project started when moving from Microsoft Edge to Helium Browser revealed t
 - [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/nbnmfihmepgnmpfaohjmdljphdkkmhoh) 1+ ![users count](https://img.shields.io/badge/dynamic/json?label=users&query=activeInstallCount&style=flat-square&color=white&url=https://microsoftedge.microsoft.com/addons/getproductdetailsbycrxid/nbnmfihmepgnmpfaohjmdljphdkkmhoh)
 - [Opera] soon...
 
-![A screenshot from the extension pop-up page](docs/screenshots/screenshotInterface1.png)
+![A screenshot from the extension pop-up page](https://i.ibb.co/v4FWLL2J/screenshot2.png)
 
 <p align="center">
   Made by <a href="https://github.com/wesleymartinsdv">Wesley Martins</a>
