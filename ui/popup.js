@@ -14,6 +14,7 @@ function applyTranslations() {
 document.addEventListener("DOMContentLoaded", async () => {
   const languages = [
     { code: "pt-BR", name: "Português (Brasil)", flag: "BR" },
+    { code: "pt-PT", name: "Português (Portugal)", flag: "PT" },
     { code: "en", name: "English", flag: "US" },
     { code: "es", name: "Español", flag: "ES" },
     { code: "fr", name: "Français", flag: "FR" },
@@ -21,21 +22,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     { code: "it", name: "Italiano", flag: "IT" },
     { code: "ja", name: "日本語", flag: "JP" },
     { code: "ko", name: "한국어", flag: "KR" },
-    { code: "zh", name: "中文", flag: "CN" },
+    { code: "zh-CN", name: "中文 (简体)", flag: "CN" },
+    { code: "zh-TW", name: "中文 (繁體)", flag: "TW" },
     { code: "ru", name: "Русский", flag: "RU" },
+    { code: "uk", name: "Українська", flag: "UA" },
     { code: "ar", name: "العربية", flag: "SA" },
+    { code: "he", name: "עברית", flag: "IL" },
+    { code: "fa", name: "فارسی", flag: "IR" },
+    { code: "ur", name: "اردو", flag: "PK" },
     { code: "hi", name: "हिन्दी", flag: "IN" },
+    { code: "bn", name: "বাংলা", flag: "BD" },
+    { code: "th", name: "ไทย", flag: "TH" },
+    { code: "vi", name: "Tiếng Việt", flag: "VN" },
+    { code: "id", name: "Bahasa Indonesia", flag: "ID" },
+    { code: "ms", name: "Bahasa Melayu", flag: "MY" },
+    { code: "tl", name: "Filipino", flag: "PH" },
     { code: "nl", name: "Nederlands", flag: "NL" },
     { code: "pl", name: "Polski", flag: "PL" },
     { code: "tr", name: "Türkçe", flag: "TR" },
+    { code: "el", name: "Ελληνικά", flag: "GR" },
+    { code: "cs", name: "Čeština", flag: "CZ" },
+    { code: "sk", name: "Slovenčina", flag: "SK" },
+    { code: "hu", name: "Magyar", flag: "HU" },
+    { code: "ro", name: "Română", flag: "RO" },
+    { code: "bg", name: "Български", flag: "BG" },
+    { code: "hr", name: "Hrvatski", flag: "HR" },
     { code: "sv", name: "Svenska", flag: "SE" },
     { code: "da", name: "Dansk", flag: "DK" },
-    { code: "no", name: "Norsk", flag: "NO" },
+    { code: "nb", name: "Norsk", flag: "NO" },
     { code: "fi", name: "Suomi", flag: "FI" },
   ];
 
   const FLAG_SOURCES = {
     BR: chrome.runtime.getURL("icons/flags/br.svg"),
+    PT: chrome.runtime.getURL("icons/flags/pt.svg"),
     US: chrome.runtime.getURL("icons/flags/us.svg"),
     ES: chrome.runtime.getURL("icons/flags/es.svg"),
     FR: chrome.runtime.getURL("icons/flags/fr.svg"),
@@ -44,12 +64,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     JP: chrome.runtime.getURL("icons/flags/jp.svg"),
     KR: chrome.runtime.getURL("icons/flags/kr.svg"),
     CN: chrome.runtime.getURL("icons/flags/cn.svg"),
+    TW: chrome.runtime.getURL("icons/flags/tw.svg"),
     RU: chrome.runtime.getURL("icons/flags/ru.svg"),
+    UA: chrome.runtime.getURL("icons/flags/ua.svg"),
     SA: chrome.runtime.getURL("icons/flags/sa.svg"),
+    IL: chrome.runtime.getURL("icons/flags/il.svg"),
+    IR: chrome.runtime.getURL("icons/flags/ir.svg"),
+    PK: chrome.runtime.getURL("icons/flags/pk.svg"),
     IN: chrome.runtime.getURL("icons/flags/in.svg"),
+    BD: chrome.runtime.getURL("icons/flags/bd.svg"),
+    TH: chrome.runtime.getURL("icons/flags/th.svg"),
+    VN: chrome.runtime.getURL("icons/flags/vn.svg"),
+    ID: chrome.runtime.getURL("icons/flags/id.svg"),
+    MY: chrome.runtime.getURL("icons/flags/my.svg"),
+    PH: chrome.runtime.getURL("icons/flags/ph.svg"),
     NL: chrome.runtime.getURL("icons/flags/nl.svg"),
     PL: chrome.runtime.getURL("icons/flags/pl.svg"),
     TR: chrome.runtime.getURL("icons/flags/tr.svg"),
+    GR: chrome.runtime.getURL("icons/flags/gr.svg"),
+    CZ: chrome.runtime.getURL("icons/flags/cz.svg"),
+    SK: chrome.runtime.getURL("icons/flags/sk.svg"),
+    HU: chrome.runtime.getURL("icons/flags/hu.svg"),
+    RO: chrome.runtime.getURL("icons/flags/ro.svg"),
+    BG: chrome.runtime.getURL("icons/flags/bg.svg"),
+    HR: chrome.runtime.getURL("icons/flags/hr.svg"),
     SE: chrome.runtime.getURL("icons/flags/se.svg"),
     DK: chrome.runtime.getURL("icons/flags/dk.svg"),
     NO: chrome.runtime.getURL("icons/flags/no.svg"),
@@ -75,10 +113,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // --- Preference Management ---
   async function savePreferences() {
+    // Map UI codes to Google Translate API codes
+    const langCodeMap = {
+      "pt-BR": "pt",
+      "pt-PT": "pt",
+      "zh-CN": "zh-CN",
+      "zh-TW": "zh-TW",
+      nb: "no", // Google Translate uses 'no' for Norwegian
+      tl: "fil", // Google Translate uses 'fil' for Filipino
+    };
+
+    const targetLang = langCodeMap[selectedLangCode] || selectedLangCode;
+
     const prefs = {
       theme: isDark ? "dark" : "light",
       favoriteLangs: favorites,
-      targetLanguage: selectedLangCode.split("-")[0], // Save 'pt', not 'pt-BR'
+      targetLanguage: targetLang,
       uiLanguage: currentLanguage,
     };
     await chrome.storage.sync.set(prefs);
@@ -104,8 +154,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     favorites = data.favoriteLangs;
     currentLanguage = data.uiLanguage;
 
+    // Map stored language codes back to UI codes
+    const storedToUIMap = {
+      pt: "pt-BR",
+      no: "nb",
+    };
+
+    let targetLang = data.targetLanguage;
+    if (storedToUIMap[targetLang]) {
+      targetLang = storedToUIMap[targetLang];
+    }
+
     const matchingLang =
-      languages.find((l) => l.code.startsWith(data.targetLanguage)) ||
+      languages.find((l) => l.code === targetLang) ||
+      languages.find((l) => l.code.startsWith(targetLang)) ||
       languages[0];
     selectedLangCode = matchingLang.code;
 

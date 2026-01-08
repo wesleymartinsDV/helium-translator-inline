@@ -1,7 +1,7 @@
 // src/content.js
 console.log("Helium Translator Inline: Content script v8 loaded and active!");
 
-const TRANSLATION_SEPARATOR = "\n\n[-HTS-]\n\n";
+const TRANSLATION_SEPARATOR = "\n|||HTSEP|||\n";
 
 // Global state for full-page translation
 let pageOriginals = new Map();

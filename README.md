@@ -22,6 +22,20 @@ The project started when moving from Microsoft Edge to Helium Browser revealed t
 - Favorite languages, quick search, and complete UI localization
 - Store metadata localized via `_locales/<lang>/messages.json`
 
+## Supported Languages (38)
+
+| Region | Languages |
+|--------|-----------|
+| **Portuguese** | Português (Brasil) 🇧🇷, Português (Portugal) 🇵🇹 |
+| **Western Europe** | English 🇺🇸, Español 🇪🇸, Français 🇫🇷, Deutsch 🇩🇪, Italiano 🇮🇹, Nederlands 🇳🇱 |
+| **Eastern Europe** | Русский 🇷🇺, Українська 🇺🇦, Polski 🇵🇱, Čeština 🇨🇿, Slovenčina 🇸🇰, Magyar 🇭🇺, Română 🇷🇴, Български 🇧🇬, Hrvatski 🇭🇷 |
+| **Scandinavia** | Svenska 🇸🇪, Dansk 🇩🇰, Norsk 🇳🇴, Suomi 🇫🇮 |
+| **East Asia** | 日本語 🇯🇵, 한국어 🇰🇷, 中文 (简体) 🇨🇳, 中文 (繁體) 🇹🇼 |
+| **Southeast Asia** | Tiếng Việt 🇻🇳, Bahasa Indonesia 🇮🇩, ไทย 🇹🇭, Bahasa Melayu 🇲🇾, Filipino 🇵🇭 |
+| **South Asia** | हिन्दी 🇮🇳, বাংলা 🇧🇩, اردو 🇵🇰 |
+| **Middle East** | العربية 🇸🇦, עברית 🇮🇱, فارسی 🇮🇷 |
+| **Mediterranean** | Türkçe 🇹🇷, Ελληνικά 🇬🇷 |
+
 ## Disclaimer
 
 This extension uses the Google Translate service to provide translations but is not affiliated with, endorsed, or sponsored by Google. All copyrights and trademarks belong to their respective owners.

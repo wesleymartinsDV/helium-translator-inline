@@ -2,6 +2,50 @@
 
 Este documento descreve os passos para criar uma extensão de tradução de páginas web e trechos de texto, com foco em usabilidade e tradução in-page.
 
+---
+
+## Changelog / Histórico de Alterações
+
+### v1.1.0 (Janeiro 2026) - Expansão de Idiomas e Correções
+
+#### Correções Críticas:
+- **Separador de tradução corrigido**: O separador `[-HTS-]` era traduzido pelo Google Translate (ex: `[-高溫超導-]` em chinês), quebrando a tradução de páginas inteiras. Alterado para `|||HTSEP|||` que é preservado.
+
+#### Códigos de Idioma:
+- Corrigido `pt` → `pt_BR` (Chrome não reconhecia código genérico)
+- Corrigido `zh` → `zh_CN` e adicionado `zh_TW` (Chrome exige códigos específicos)
+- Corrigido `no` → `nb` (Norueguês Bokmål - código correto para Chrome)
+
+#### Expansão de Idiomas (de 19 para 38):
+**Novos idiomas adicionados:**
+- 🇵🇹 Português (Portugal) - pt_PT
+- 🇺🇦 Ucraniano - uk
+- 🇻🇳 Vietnamita - vi
+- 🇮🇩 Indonésio - id
+- 🇹🇭 Tailandês - th
+- 🇧🇩 Bengali - bn
+- 🇮🇱 Hebraico - he
+- 🇮🇷 Persa - fa
+- 🇵🇰 Urdu - ur
+- 🇬🇷 Grego - el
+- 🇨🇿 Tcheco - cs
+- 🇸🇰 Eslovaco - sk
+- 🇭🇺 Húngaro - hu
+- 🇷🇴 Romeno - ro
+- 🇧🇬 Búlgaro - bg
+- 🇭🇷 Croata - hr
+- 🇲🇾 Malaio - ms
+- 🇵🇭 Filipino - tl
+
+#### Arquivos Criados/Modificados:
+- 18 novos arquivos `_locales/xx/messages.json`
+- 18 novas bandeiras SVG em `icons/flags/`
+- `ui/popup.js` - Lista de idiomas e mapeamentos expandidos
+- `ui/i18n.js` - Traduções da UI para 38 idiomas
+- `src/content.js` - Novo separador de tradução
+
+---
+
 ## Fase 1: Estrutura e Configuração do Projeto
 
 1.  **Criação do Diretório do Projeto:**

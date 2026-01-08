@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+    <rect fill="#0d5eaf" width="900" height="600" />
+    <rect fill="#fff" width="900" height="66.67" />
+    <rect fill="#0d5eaf" y="66.67" width="900" height="66.67" />
+    <rect fill="#fff" y="133.33" width="900" height="66.67" />
+    <rect fill="#0d5eaf" y="200" width="900" height="66.67" />
+    <rect fill="#fff" y="266.67" width="333.33" height="333.33" />
+    <rect fill="#0d5eaf" y="333.33" width="900" height="66.67" />
+    <rect fill="#fff" y="400" width="900" height="66.67" />
+    <rect fill="#0d5eaf" y="466.67" width="900" height="66.67" />
+    <rect fill="#fff" y="533.33" width="900" height="66.67" />
+    <rect fill="#0d5eaf" width="333.33" height="333.33" />
+    <path fill="#fff"
+        d="M166.67,83.33l41.67,125h131.25l-106.25,77.08 40.63,125-106.25-77.08-106.25,77.08 40.63-125-106.25-77.08h131.25z" />
+</svg>
