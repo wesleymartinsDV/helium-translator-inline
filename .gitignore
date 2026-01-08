@@ -23,5 +23,5 @@ yarn-error.log*
 *.zip
 *.crx
 
-#Personal files
+# Personal files
 zPessoal/
