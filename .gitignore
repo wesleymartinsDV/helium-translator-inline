@@ -22,3 +22,6 @@ yarn-error.log*
 # Compressed files for store submission
 *.zip
 *.crx
+
+#Personal files
+zPessoal/
