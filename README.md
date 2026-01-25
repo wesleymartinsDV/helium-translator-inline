@@ -1,4 +1,4 @@
-# Helium Translator Inline
+# Helium Inline Translator
 
 The project started when moving from Microsoft Edge to Helium Browser revealed the lack of a translation flow comparable to Edge’s native feature, so the extension was built to fill that gap—and it works seamlessly in any Chromium browser, including Chrome and Edge. Fast shortcuts keep the workflow fluid while the interface stays clean.
 
@@ -7,7 +7,7 @@ The project started when moving from Microsoft Edge to Helium Browser revealed t
 - [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/nbnmfihmepgnmpfaohjmdljphdkkmhoh) 1+ ![users count](https://img.shields.io/badge/dynamic/json?label=users&query=activeInstallCount&style=flat-square&color=white&url=https://microsoftedge.microsoft.com/addons/getproductdetailsbycrxid/nbnmfihmepgnmpfaohjmdljphdkkmhoh)
 - [Opera] soon...
 
-![A screenshot from the extension pop-up page](https://i.ibb.co/v4FWLL2J/screenshot2.png)
+![A screenshot from the extension pop-up page](https://i.ibb.co/B23N9mVs/Camada-1.jpg)
 
 <p align="center">
   Made by <a href="https://github.com/wesleymartinsdv">Wesley Martins</a>
@@ -22,19 +22,21 @@ The project started when moving from Microsoft Edge to Helium Browser revealed t
 - Favorite languages, quick search, and complete UI localization
 - Store metadata localized via `_locales/<lang>/messages.json`
 
-## Supported Languages (38)
+## Supported Languages (49)
 
 | Region | Languages |
 |--------|-----------|
 | **Portuguese** | Português (Brasil) 🇧🇷, Português (Portugal) 🇵🇹 |
-| **Western Europe** | English 🇺🇸, Español 🇪🇸, Français 🇫🇷, Deutsch 🇩🇪, Italiano 🇮🇹, Nederlands 🇳🇱 |
-| **Eastern Europe** | Русский 🇷🇺, Українська 🇺🇦, Polski 🇵🇱, Čeština 🇨🇿, Slovenčina 🇸🇰, Magyar 🇭🇺, Română 🇷🇴, Български 🇧🇬, Hrvatski 🇭🇷 |
-| **Scandinavia** | Svenska 🇸🇪, Dansk 🇩🇰, Norsk 🇳🇴, Suomi 🇫🇮 |
+| **Western Europe** | English 🇺🇸, Español 🇪🇸, Français 🇫🇷, Deutsch 🇩🇪, Italiano 🇮🇹, Nederlands 🇳🇱, Català 🇦🇩, Gaeilge 🇮🇪 |
+| **Central Europe** | Lëtzebuergesch 🇱🇺, Malti 🇲🇹 |
+| **Eastern Europe** | Русский 🇷🇺, Українська 🇺🇦, Polski 🇵🇱, Čeština 🇨🇿, Slovenčina 🇸🇰, Magyar 🇭🇺, Română 🇷🇴, Български 🇧🇬, Hrvatski 🇭🇷, Slovenščina 🇸🇮, Српски 🇷🇸 |
+| **Scandinavia & Baltics** | Svenska 🇸🇪, Dansk 🇩🇰, Norsk 🇳🇴, Suomi 🇫🇮, Íslenska 🇮🇸, Eesti 🇪🇪, Latviešu 🇱🇻, Lietuvių 🇱🇹 |
 | **East Asia** | 日本語 🇯🇵, 한국어 🇰🇷, 中文 (简体) 🇨🇳, 中文 (繁體) 🇹🇼 |
 | **Southeast Asia** | Tiếng Việt 🇻🇳, Bahasa Indonesia 🇮🇩, ไทย 🇹🇭, Bahasa Melayu 🇲🇾, Filipino 🇵🇭 |
 | **South Asia** | हिन्दी 🇮🇳, বাংলা 🇧🇩, اردو 🇵🇰 |
 | **Middle East** | العربية 🇸🇦, עברית 🇮🇱, فارسی 🇮🇷 |
 | **Mediterranean** | Türkçe 🇹🇷, Ελληνικά 🇬🇷 |
+| **Africa** | Afrikaans 🇿🇦 |
 
 ## Disclaimer
 
@@ -75,7 +77,7 @@ docs/
 ## Privacy and Support
 
 - Privacy policy: `docs/PrivacyPolicy.md`
-- Contact: `wesleydeveloper@icloud.com`
+- LinkedIn: <https://www.linkedin.com/in/wesleymartinsDV>
 - GitHub: <https://github.com/wesleymartinsDV/helium-translator-inline>
 
 ## License

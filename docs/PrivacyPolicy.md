@@ -1,8 +1,8 @@
-# Privacy Policy for Helium Translator Inline
+# Privacy Policy for Helium Inline Translator
 
 Updated: November 17, 2025
 
-Helium Translator Inline ("Extension") is developed and maintained by Wesley Martins ("we", "our", "us"). This privacy policy explains how the Extension handles data when you install and use it in Chromium-based browsers such as Google Chrome or Microsoft Edge.
+Helium Inline Translator ("Extension") is developed and maintained by Wesley Martins ("we", "our", "us"). This privacy policy explains how the Extension handles data when you install and use it in Chromium-based browsers such as Google Chrome or Microsoft Edge.
 
 ## Data Collection and Storage
 

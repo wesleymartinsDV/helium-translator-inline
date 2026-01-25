@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Helium Translator Inline",
+  "name": "Helium Inline Translator",
   "default_locale": "en",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "__MSG_appDesc__",
   "permissions": [
     "contextMenus",

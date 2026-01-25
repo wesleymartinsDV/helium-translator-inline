@@ -1,6 +1,6 @@
 # Store Listing Copy
 
-Use the following text blocks when submitting Helium Translator Inline to browser stores.
+Use the following text blocks when submitting Helium Inline Translator to browser stores.
 
 ## English (default locale)
 
@@ -10,14 +10,14 @@ Inline page and text translations without disruptive popups.
 
 ### Full description
 
-Helium Translator Inline keeps translations focused and fast:
+Helium Inline Translator keeps translations focused and fast:
 
 - Born from the move from Microsoft Edge to Helium Browser, matching Edge’s native translation flow.
 - Translate entire pages or selected snippets instantly.
 - Trigger shortcuts (`Shift + Alt + Q` for selections, `Shift + Alt + W` for full pages).
 - Work without intrusive popups thanks to inline rendering.
 - Save favorite languages, search quickly, and switch themes.
-- Localized interface and store metadata in 18 languages.
+- Localized interface and store metadata in 49 languages.
 
 Press a shortcut again to revert to the original content. Preferences sync across signed-in devices via Chrome Sync. Built for people who translate frequently and value a clean reading experience.
 

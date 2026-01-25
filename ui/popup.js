@@ -51,6 +51,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     { code: "da", name: "Dansk", flag: "DK" },
     { code: "nb", name: "Norsk", flag: "NO" },
     { code: "fi", name: "Suomi", flag: "FI" },
+    { code: "et", name: "Eesti", flag: "EE" },
+    { code: "lv", name: "Latviešu", flag: "LV" },
+    { code: "lt", name: "Lietuvių", flag: "LT" },
+    { code: "sl", name: "Slovenščina", flag: "SI" },
+    { code: "is", name: "Íslenska", flag: "IS" },
+    { code: "lb", name: "Lëtzebuergesch", flag: "LU" },
+    { code: "mt", name: "Malti", flag: "MT" },
+    { code: "ca", name: "Català", flag: "AD" },
+    { code: "af", name: "Afrikaans", flag: "ZA" },
+    { code: "ga", name: "Gaeilge", flag: "IE" },
+    { code: "sr", name: "Српски", flag: "RS" },
   ];
 
   const FLAG_SOURCES = {
@@ -92,6 +103,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     DK: chrome.runtime.getURL("icons/flags/dk.svg"),
     NO: chrome.runtime.getURL("icons/flags/no.svg"),
     FI: chrome.runtime.getURL("icons/flags/fi.svg"),
+    EE: chrome.runtime.getURL("icons/flags/ee.svg"),
+    LV: chrome.runtime.getURL("icons/flags/lv.svg"),
+    LT: chrome.runtime.getURL("icons/flags/lt.svg"),
+    SI: chrome.runtime.getURL("icons/flags/si.svg"),
+    IS: chrome.runtime.getURL("icons/flags/is.svg"),
+    LU: chrome.runtime.getURL("icons/flags/lu.svg"),
+    MT: chrome.runtime.getURL("icons/flags/mt.svg"),
+    AD: chrome.runtime.getURL("icons/flags/ad.svg"),
+    ZA: chrome.runtime.getURL("icons/flags/za.svg"),
+    IE: chrome.runtime.getURL("icons/flags/ie.svg"),
+    RS: chrome.runtime.getURL("icons/flags/rs.svg"),
   };
 
   let selectedLangCode;
@@ -120,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       "zh-CN": "zh-CN",
       "zh-TW": "zh-TW",
       nb: "no", // Google Translate uses 'no' for Norwegian
-      tl: "fil", // Google Translate uses 'fil' for Filipino
+      // Note: 'tl' works fine for Filipino in the free API (fil also works)
     };
 
     const targetLang = langCodeMap[selectedLangCode] || selectedLangCode;
@@ -137,7 +159,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function loadPreferences() {
     // Detect system theme
     const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      "(prefers-color-scheme: dark)",
     ).matches;
 
     // Detect system language
@@ -234,11 +256,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const filtered = languages.filter(
       (lang) =>
         lang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lang.code.toLowerCase().includes(searchTerm.toLowerCase())
+        lang.code.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     const favLangs = filtered.filter((lang) =>
-      favorites.includes(lang.code.split("-")[0])
+      favorites.includes(lang.code.split("-")[0]),
     );
 
     if (favLangs.length > 0 && !searchTerm) {

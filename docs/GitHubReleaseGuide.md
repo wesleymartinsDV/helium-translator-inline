@@ -1,6 +1,6 @@
 # GitHub Release Guide
 
-Follow these steps whenever you publish a new version of Helium Translator Inline on GitHub.
+Follow these steps whenever you publish a new version of Helium Inline Translator on GitHub.
 
 ## 1. Prepare your workspace
 

@@ -1,7 +1,14 @@
-// src/content.js
-console.log("Helium Translator Inline: Content script v8 loaded and active!");
+﻿// src/content.js
+console.log("Helium Inline Translator: Content script v8 loaded and active!");
 
 const TRANSLATION_SEPARATOR = "\n|||HTSEP|||\n";
+const TRANSLATION_SEPARATOR_ALT = "\n\n[-HTS-]\n\n";
+const TRANSLATION_SEPARATOR_SR = "\n\n[---]\n\n";
+
+// Languages that need alternative separator (separator gets transliterated)
+const ALT_SEPARATOR_LANGS = ["ru", "uk", "bg", "ga"];
+// Serbian and Urdu need their own separator (even [-HTS-] gets modified)
+const SR_SEPARATOR_LANGS = ["sr", "ur"];
 
 // Global state for full-page translation
 let pageOriginals = new Map();
@@ -34,7 +41,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.action === "translate-full-page") {
     if (isPageTranslated) {
       console.log(
-        "Helium Translator Inline: Page is already translated. Reverting now."
+        "Helium Inline Translator: Page is already translated. Reverting now.",
       );
       revertPageTranslation();
     } else {
@@ -54,35 +61,35 @@ document.addEventListener("keydown", async (e) => {
     (e.altKey ? "alt+" : "") +
     e.key.toLowerCase();
 
-  console.log("Helium Translator Inline: Key pressed:", pressedKey);
+  console.log("Helium Inline Translator: Key pressed:", pressedKey);
 
   // Translate/revert selection with Shift+Alt+Q
   if (pressedKey === "shift+alt+q") {
-    console.log("Helium Translator Inline: Shift+Alt+Q detected!");
+    console.log("Helium Inline Translator: Shift+Alt+Q detected!");
     e.preventDefault();
     const selection = window.getSelection();
 
     if (isSelectionTranslated) {
-      console.log("Helium Translator Inline: Reverting selection translation");
+      console.log("Helium Inline Translator: Reverting selection translation");
       revertSelectionTranslation();
     } else if (selection && !selection.isCollapsed) {
-      console.log("Helium Translator Inline: Translating selection");
+      console.log("Helium Inline Translator: Translating selection");
       await handleSelectionTranslation();
     } else {
-      console.log("Helium Translator Inline: No selection to translate");
+      console.log("Helium Inline Translator: No selection to translate");
     }
   }
 
   // Translate/revert full page with Shift+Alt+W
   if (pressedKey === "shift+alt+w") {
-    console.log("Helium Translator Inline: Shift+Alt+W detected!");
+    console.log("Helium Inline Translator: Shift+Alt+W detected!");
     e.preventDefault();
 
     if (isPageTranslated) {
-      console.log("Helium Translator Inline: Reverting page translation");
+      console.log("Helium Inline Translator: Reverting page translation");
       revertPageTranslation();
     } else {
-      console.log("Helium Translator Inline: Translating full page");
+      console.log("Helium Inline Translator: Translating full page");
       await handleFullPageTranslation();
     }
   }
@@ -90,16 +97,24 @@ document.addEventListener("keydown", async (e) => {
 
 // Handles translating the current user selection
 async function handleSelectionTranslation() {
-  console.log("Helium Translator Inline: handleSelectionTranslation called");
+  console.log("Helium Inline Translator: handleSelectionTranslation called");
   const selection = window.getSelection();
 
   if (!selection.rangeCount || selection.isCollapsed) {
-    console.log("Helium Translator Inline: No valid selection");
+    console.log("Helium Inline Translator: No valid selection");
     return;
   }
 
+  // Get current target language for separator selection
+  currentTargetLanguage = await getTargetLanguageFromStorage();
+  const separator = SR_SEPARATOR_LANGS.includes(currentTargetLanguage)
+    ? TRANSLATION_SEPARATOR_SR
+    : ALT_SEPARATOR_LANGS.includes(currentTargetLanguage)
+      ? TRANSLATION_SEPARATOR_ALT
+      : TRANSLATION_SEPARATOR;
+
   const range = selection.getRangeAt(0);
-  console.log("Helium Translator Inline: Range obtained", {
+  console.log("Helium Inline Translator: Range obtained", {
     startContainer: range.startContainer,
     endContainer: range.endContainer,
     commonAncestor: range.commonAncestorContainer,
@@ -107,17 +122,15 @@ async function handleSelectionTranslation() {
 
   const textNodes = collectTextNodesFromRange(range);
   console.log(
-    `Helium Translator Inline: Collected ${textNodes.length} text nodes`
+    `Helium Inline Translator: Collected ${textNodes.length} text nodes`,
   );
 
   if (!textNodes.length) {
-    console.log("Helium Translator Inline: No text nodes found in selection.");
+    console.log("Helium Inline Translator: No text nodes found in selection.");
     return;
   }
 
-  const joinedText = textNodes
-    .map((node) => node.nodeValue)
-    .join(TRANSLATION_SEPARATOR);
+  const joinedText = textNodes.map((node) => node.nodeValue).join(separator);
 
   let response;
   try {
@@ -127,23 +140,23 @@ async function handleSelectionTranslation() {
     });
   } catch (error) {
     console.error(
-      "Helium Translator Inline: Failed to translate selection.",
-      error
+      "Helium Inline Translator: Failed to translate selection.",
+      error,
     );
     return;
   }
 
   if (!response || typeof response.translatedText !== "string") {
     console.error(
-      "Helium Translator Inline: Invalid selection translation response.",
-      response
+      "Helium Inline Translator: Invalid selection translation response.",
+      response,
     );
     return;
   }
 
-  const translatedTexts = response.translatedText.split(TRANSLATION_SEPARATOR);
+  const translatedTexts = response.translatedText.split(separator);
   if (translatedTexts.length !== textNodes.length) {
-    console.error("Helium Translator Inline: Selection translation mismatch.", {
+    console.error("Helium Inline Translator: Selection translation mismatch.", {
       expected: textNodes.length,
       received: translatedTexts.length,
     });
@@ -167,7 +180,7 @@ async function handleSelectionTranslation() {
 
 // Reverts the last selection translation
 function revertSelectionTranslation() {
-  console.log("Helium Translator Inline: Reverting selection translation.");
+  console.log("Helium Inline Translator: Reverting selection translation.");
   for (const node of lastTranslatedNodes) {
     if (node.isConnected && selectionOriginals.has(node)) {
       node.nodeValue = selectionOriginals.get(node);
@@ -181,7 +194,7 @@ function revertSelectionTranslation() {
 function collectTextNodesFromRange(range) {
   if (!range) {
     console.log(
-      "Helium Translator Inline: No range provided to collectTextNodesFromRange"
+      "Helium Inline Translator: No range provided to collectTextNodesFromRange",
     );
     return [];
   }
@@ -190,7 +203,7 @@ function collectTextNodesFromRange(range) {
   const walker = document.createTreeWalker(
     range.commonAncestorContainer,
     NodeFilter.SHOW_TEXT,
-    null
+    null,
   );
 
   const rootNode = walker.currentNode;
@@ -211,7 +224,7 @@ function collectTextNodesFromRange(range) {
   }
 
   console.log(
-    `Helium Translator Inline: collectTextNodesFromRange found ${textNodes.length} nodes`
+    `Helium Inline Translator: collectTextNodesFromRange found ${textNodes.length} nodes`,
   );
   return textNodes;
 }
@@ -219,7 +232,7 @@ function collectTextNodesFromRange(range) {
 // Handles translating all text nodes on the page
 async function handleFullPageTranslation() {
   console.log(
-    "Helium Translator Inline: Starting full page translation with batching."
+    "Helium Inline Translator: Starting full page translation with batching.",
   );
   isPageTranslated = true;
   currentTargetLanguage = await getTargetLanguageFromStorage();
@@ -231,7 +244,7 @@ async function handleFullPageTranslation() {
       acceptNode: (node) => {
         if (
           node.parentElement.closest(
-            'script, style, textarea, [contenteditable="true"]'
+            'script, style, textarea, [contenteditable="true"]',
           )
         ) {
           return NodeFilter.FILTER_REJECT;
@@ -241,7 +254,7 @@ async function handleFullPageTranslation() {
         }
         return NodeFilter.FILTER_ACCEPT;
       },
-    }
+    },
   );
 
   const nodesToTranslate = [];
@@ -258,7 +271,7 @@ async function handleFullPageTranslation() {
   await translateNodesInBatches(nodesToTranslate);
 
   console.log(
-    `Helium Translator Inline: Finished. Translated ${pageOriginals.size} text nodes.`
+    `Helium Inline Translator: Finished. Translated ${pageOriginals.size} text nodes.`,
   );
 }
 
@@ -318,7 +331,7 @@ async function translateNodesInBatches(nodes) {
 
     const originalTexts = nodeBatch.map((n) => pageOriginals.get(n) || "");
     const cacheKeys = originalTexts.map(
-      (text) => `${currentTargetLanguage}|${text}`
+      (text) => `${currentTargetLanguage}|${text}`,
     );
     const results = new Array(nodeBatch.length).fill(undefined);
 
@@ -336,7 +349,14 @@ async function translateNodesInBatches(nodes) {
     }
 
     if (textsToTranslate.length > 0) {
-      const joinedText = textsToTranslate.join(TRANSLATION_SEPARATOR);
+      // Use alternative separator for languages that transliterate the main separator
+      const separator = SR_SEPARATOR_LANGS.includes(currentTargetLanguage)
+        ? TRANSLATION_SEPARATOR_SR
+        : ALT_SEPARATOR_LANGS.includes(currentTargetLanguage)
+          ? TRANSLATION_SEPARATOR_ALT
+          : TRANSLATION_SEPARATOR;
+
+      const joinedText = textsToTranslate.join(separator);
 
       try {
         const response = await chrome.runtime.sendMessage({
@@ -345,9 +365,7 @@ async function translateNodesInBatches(nodes) {
         });
 
         const translatedJoinedText = response?.translatedText || "";
-        const translatedTexts = translatedJoinedText.split(
-          TRANSLATION_SEPARATOR
-        );
+        const translatedTexts = translatedJoinedText.split(separator);
 
         if (translatedTexts.length === textsToTranslate.length) {
           translationIndices.forEach((batchIndex, resultIndex) => {
@@ -357,17 +375,17 @@ async function translateNodesInBatches(nodes) {
           });
         } else {
           console.error(
-            "Helium Translator Inline: Batch translation mismatch.",
+            "Helium Inline Translator: Batch translation mismatch.",
             {
               originalCount: textsToTranslate.length,
               translatedCount: translatedTexts.length,
-            }
+            },
           );
         }
       } catch (e) {
         console.error(
-          "Helium Translator Inline: Failed to process a batch.",
-          e
+          "Helium Inline Translator: Failed to process a batch.",
+          e,
         );
       }
     }
@@ -383,7 +401,7 @@ async function translateNodesInBatches(nodes) {
 
 // Reverts the full page translation
 function revertPageTranslation() {
-  console.log("Helium Translator Inline: Reverting page translation.");
+  console.log("Helium Inline Translator: Reverting page translation.");
   for (const [node, originalText] of pageOriginals.entries()) {
     if (node.isConnected) {
       node.nodeValue = originalText;

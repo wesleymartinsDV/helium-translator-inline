@@ -1,4 +1,4 @@
-// src/background.js
+﻿// src/background.js
 console.log("Background script starting...");
 
 const BADGE_TIMEOUT_MS = 4000;
@@ -58,7 +58,7 @@ chrome.runtime.onInstalled.addListener((details) => {
       if (languages && languages.length > 0) {
         const primaryLang = languages[0].split("-")[0];
         console.log(
-          `Helium Translator Inline: Detected primary language: ${primaryLang}. Setting as default.`
+          `Helium Inline Translator: Detected primary language: ${primaryLang}. Setting as default.`
         );
         chrome.storage.sync.set({ targetLanguage: primaryLang });
       } else {
@@ -76,7 +76,7 @@ async function translateText(text) {
 
   // Debugging log to see which language is being used
   console.log(
-    `Helium Translator Inline: Translating to target language: '${targetLang}'`
+    `Helium Inline Translator: Translating to target language: '${targetLang}'`
   );
 
   const sourceLang = "auto";
